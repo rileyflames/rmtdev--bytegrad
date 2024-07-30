@@ -1,5 +1,5 @@
 import {
-    URL,
+    BASE_API_URL,
     searchInputEl,
     spinnerSearchEl,
     jobListSearchEl,
@@ -33,7 +33,7 @@ const submitHandler = (event) =>{
     renderSpinner ('search');
 
     // fetch search results
-    fetch(`${URL}?search=${searchText}`)
+    fetch(`${BASE_API_URL}/jobs?search=${searchText}`)
     .then(response =>{
         if (!response.ok) {
            console.log('something went wrong');

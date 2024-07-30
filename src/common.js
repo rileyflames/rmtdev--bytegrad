@@ -20,5 +20,6 @@ export const sortingBtnRecentEl = document.querySelector(".sorting__button--rece
 export const spinnerSearchEl = document.querySelector(".spinner--search");
 export const spinnerJobDetailsEl = document.querySelector(".spinner--job-details");
 
-//fetch url
-export const URL = 'https://bytegrad.com/course-assets/js/2/api/jobs';
+//constants
+export const BASE_API_URL = 'https://bytegrad.com/course-assets/js/2/api';
+export const DEFAULT_DISPLAY_TIME = 3500;

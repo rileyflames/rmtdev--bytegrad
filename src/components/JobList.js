@@ -1,8 +1,7 @@
 import {
-    URL,
+    BASE_API_URL,
     jobListSearchEl,
     jobDetailsContentEl,
-    spinnerJobDetailsEl
 } from '../common.js';
 import renderSpinner from './Spinner.js';
 
@@ -28,7 +27,7 @@ const clickHandler = (event)=>{
     const id = jobItemEl.children[0].getAttribute('href');
 
     // fetch job item data
-    fetch(`${URL}/${id}`)
+    fetch(`${BASE_API_URL}/jobs/${id}`)
     .then(response =>{
         if (!response.ok) {
             console.log('something went wrong');
