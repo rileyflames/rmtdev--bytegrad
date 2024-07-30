@@ -6,6 +6,8 @@ import {
     numberEl,
     searchFormEl
 } from '../common.js';
+import renderError from './Error.js';
+import renderSpinner from './Spinner.js';
 
 const submitHandler = (event) =>{
     //prevent default behavior 
@@ -18,11 +20,8 @@ const submitHandler = (event) =>{
     const forbiddenPattern =/[0-9]/;
     const patternMatch = forbiddenPattern.test(searchText);
     if (patternMatch) {
-        errorTextEl.textContent = 'Your search may not contain numbers';
-         errorEl.classList.add('error--visible'); 
-         setTimeout(()=>{
-            errorEl.classList.remove('error--visible');
-         },3500)      
+        renderError('Your search may not contain numbers');
+         return;      
     }
     // blur input
     searchInputEl.blur();
@@ -31,7 +30,7 @@ const submitHandler = (event) =>{
     jobListSearchEl.innerHTML = '';
 
     // render spinner
-    spinnerSearchEl.classList.add('spinner--visible');
+    renderSpinner ('search');
 
     // fetch search results
     fetch(`${URL}?search=${searchText}`)
@@ -46,7 +45,7 @@ const submitHandler = (event) =>{
         //extract job items
         const {jobItems} = data; 
         // remove spinner
-        spinnerSearchEl.classList.remove('spinner--visible');
+        renderSpinner('search');
         // render number of results
         numberEl.textContent = jobItems.length;
 
