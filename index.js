@@ -20,3 +20,20 @@ const sortingBtnRecentEl = document.querySelector(".sorting__button--recent");
 const spinnerSearchEl = document.querySelector(".spinner--search");
 const spinnerJobDetailsEl = document.querySelector(".spinner--job-details");
 // --search component
+const submitHandler = (event) =>{
+    //prevent default behavior 
+    event.preventDefault();
+
+    // get search text
+    const searchText = searchInputEl.value;
+
+    // validation
+    const forbiddenPattern =/python/;
+    const patternMatch = forbiddenPattern.test(searchText);
+    if (patternMatch) {
+        errorTextEl.textContent = 'Your search may not contain Python';
+         errorEl.classList.add('error--visible');       
+    }
+}
+
+searchFormEl.addEventListener('submit', submitHandler);
