@@ -1,7 +1,6 @@
 import {
     BASE_API_URL,
     searchInputEl,
-    spinnerSearchEl,
     jobListSearchEl,
     numberEl,
     searchFormEl
@@ -10,7 +9,7 @@ import renderError from './Error.js';
 import renderSpinner from './Spinner.js';
 import renderJobList from './JobList.js';
 
-const submitHandler = (event) =>{
+const submitHandler = async (event) =>{
     //prevent default behavior 
     event.preventDefault();
 
@@ -34,27 +33,31 @@ const submitHandler = (event) =>{
     renderSpinner ('search');
 
     // fetch search results
-    fetch(`${BASE_API_URL}/jobs?search=${searchText}`)
-    .then(response =>{
-        if (!response.ok) {
-           console.log('something went wrong');
-           return; 
-        }
-        return response.json();
-    })
-    .then(data =>{
-        //extract job items
-        const {jobItems} = data; 
-        // remove spinner
-        renderSpinner('search');
-        // render number of results
-        numberEl.textContent = jobItems.length;
+    try {
+        const response = await fetch(`${BASE_API_URL}/jobs?search=${searchText}`);
+    
+        const data = await response.json();
 
-        // render job items in search job list
-        renderJobList(jobItems);
+        if (!response.ok) 
+            { // 4xx 5xx status code
+                    throw new Error(data.description);
+            };
+    
+             // extract job items
+            const {jobItems} = data; 
+            // remove spinner
+            renderSpinner('search');
+            // render number of results
+            numberEl.textContent = jobItems.length;
+    
+            // render job items in search job list
+            renderJobList(jobItems);
+
+    }catch (error){
+        renderSpinner('search');
+        renderError(error.message);
+    };
         
-    })
-    .catch(error => console.log(error));
-}
+};
 
 searchFormEl.addEventListener('submit', submitHandler);
