@@ -1,12 +1,16 @@
-// state 
-export const state ={
+// CONSTANTS
+export const BASE_API_URL = 'https://bytegrad.com/course-assets/js/2/api';
+export const DEFAULT_DISPLAY_TIME = 3500;
+export const RESULTS_PER_PAGE = 7;
+
+// STATE
+export const state = {
     searchJobItems: [],
+    activeJobItem: {},
     currentPage: 1
 };
 
-// global selectors
-
-
+// SELECTORS
 export const bookmarksBtnEl = document.querySelector('.bookmarks-btn');
 export const errorEl = document.querySelector('.error');
 export const errorTextEl = document.querySelector('.error__text');
@@ -28,22 +32,14 @@ export const sortingBtnRecentEl = document.querySelector(".sorting__button--rece
 export const spinnerSearchEl = document.querySelector(".spinner--search");
 export const spinnerJobDetailsEl = document.querySelector(".spinner--job-details");
 
-//constants
-export const BASE_API_URL = 'https://bytegrad.com/course-assets/js/2/api';
-export const DEFAULT_DISPLAY_TIME = 3500;
-export const RESULTS_PER_PAGE =7;
-
-
-// helper functions
-export const getData = async (completeURL) => {
+// HELPER / UTILITY FUNCTIONS
+export const getData = async completeURL => {
     const response = await fetch(completeURL);
-
     const data = await response.json();
 
-    if (!response.ok) 
-        { // 4xx 5xx status code
-                throw new Error(data.description);
-        };
-    return data;
+    if (!response.ok) { // 4xx, 5xx status code
+        throw new Error(data.description);
+    }
 
+    return data;
 };

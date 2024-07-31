@@ -14,7 +14,7 @@ const clickHandler = event => {
     // stop function if no clicked button element
     if (!clickedButtonEl) return;
 
-    // update the state to page 1
+    // update state (reset to page 1)
     state.currentPage = 1;
 
     // check if intention is recent or relevant sorting
@@ -39,7 +39,8 @@ const clickHandler = event => {
         state.searchJobItems.sort((a, b) => {
             return b.relevanceScore - a.relevanceScore; // e.g. if a.relevanceScore = 94 and b.relevanceScore = 78, then a is more relevant. a should be sorted higher than b. return a negative number.
         });
-    };
+    }
+
     // reset pagination buttons
     renderPaginationButtons();
 
