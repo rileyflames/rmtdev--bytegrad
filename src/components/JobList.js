@@ -1,4 +1,5 @@
 import {
+    RESULTS_PER_PAGE,
     state,
     BASE_API_URL,
     jobListSearchEl,
@@ -17,7 +18,7 @@ const renderJobList = () =>{
 
     // display job items
 
-    state.searchJobItems.slice(0,7).forEach(jobItem => {
+    state.searchJobItems.slice(state.currentPage * RESULTS_PER_PAGE - RESULTS_PER_PAGE , state.currentPage * 7 ).forEach(jobItem => {
 
         const newJobItemHTML =`
             <li class="job-item">
