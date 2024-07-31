@@ -1,4 +1,5 @@
 import './src/components/Error.js';
+import './src/components/Bookmarks.js'
 import './src/components/jobDetails.js';
 import './src/components/JobList.js';
 import './src/components/pagination.js';
