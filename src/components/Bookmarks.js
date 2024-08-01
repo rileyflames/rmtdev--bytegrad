@@ -18,6 +18,8 @@ const clickHandler = (event)=>{
     }else{
         state.bookmarkJobItems.push(state.activeJobItem);
     }
+    // persist data with local storage
+    localStorage.setItem('bookmarkJobItems', JSON.stringify(state.bookmarkJobItems));
 
     // update bookmark item
     document.querySelector('.job-info__bookmark-icon').classList.toggle('job-info__bookmark-icon--bookmarked');
