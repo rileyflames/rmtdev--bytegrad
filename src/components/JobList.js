@@ -4,18 +4,29 @@ import {
     state,
     jobListSearchEl,
     jobDetailsContentEl,
-    getData
+    getData,
+    jobListBookmarksEl
 } from '../common.js';
 import renderSpinner from './Spinner.js';
 import renderJobDetails from './jobDetails.js';
 import renderError from './Error.js';
 
-const renderJobList = () => {
+const renderJobList = (whichJobList = 'search') => {
+    // determine correct selector for job list eg search result or bookmarks
+    const jobListEl = whichJobList === 'search' ? jobListSearchEl : jobListBookmarksEl;
     // remove previous job items
-    jobListSearchEl.innerHTML = '';
+    jobListEl.innerHTML = '';
+
+    // determine the job items that should be rendered
+    let jobItems;
+    if (whichJobList === 'search') {
+       jobItems = state.searchJobItems.slice(state.currentPage * RESULTS_PER_PAGE - RESULTS_PER_PAGE, state.currentPage * RESULTS_PER_PAGE);
+    }else if (whichJobList === 'bookmarks'){
+        jobItems = state.bookmarkJobItems;
+    }
 
     // display job items
-    state.searchJobItems.slice(state.currentPage * RESULTS_PER_PAGE - RESULTS_PER_PAGE, state.currentPage * RESULTS_PER_PAGE).forEach(jobItem => {
+    jobItems.forEach(jobItem => {
         const newJobItemHTML = `
             <li class="job-item ${state.activeJobItem.id === jobItem.id ? 'job-item--active' : ''}">
                 <a class="job-item__link" href="${jobItem.id}">
@@ -36,7 +47,7 @@ const renderJobList = () => {
                 </a>
             </li>
         `;
-        jobListSearchEl.insertAdjacentHTML('beforeend', newJobItemHTML);
+        jobListEl.insertAdjacentHTML('beforeend', newJobItemHTML);
     });
 };
 
@@ -47,8 +58,8 @@ const clickHandler = async event => {
     // get clicked job item element
     const jobItemEl = event.target.closest('.job-item');
 
-    // remove the active class from previously active job item
-    document.querySelector('.job-item--active')?.classList.remove('job-item--active');
+    // remove the active class from previously active job items
+    document.querySelectorAll('.job-item--active').forEach(jobItemWithActiveClass => jobItemWithActiveClass.classList.remove('job-item--active'));
 
     // add active class
     jobItemEl.classList.add('job-item--active');
@@ -87,5 +98,6 @@ const clickHandler = async event => {
 };
 
 jobListSearchEl.addEventListener('click', clickHandler);
+jobListBookmarksEl.addEventListener('click', clickHandler);
 
 export default renderJobList;

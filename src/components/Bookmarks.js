@@ -13,7 +13,11 @@ const clickHandler = (event)=>{
     if (!event.target.className.includes('bookmark')) return;
 
     // update state
-    state.bookmarkJobItems.push(state.activeJobItem);
+    if(state.bookmarkJobItems.some(bookmarkJobItem => bookmarkJobItem.id === state.activeJobItem.id)){
+        state.bookmarkJobItems = state.bookmarkJobItems.filter(bookmarkJobItem => bookmarkJobItem.id !== state.activeJobItem.id);
+    }else{
+        state.bookmarkJobItems.push(state.activeJobItem);
+    }
 
     // update bookmark item
     document.querySelector('.job-info__bookmark-icon').classList.toggle('job-info__bookmark-icon--bookmarked');
@@ -25,6 +29,9 @@ const mouseEnterHandler = ()=>{
     
     // make job list vissible
     jobListBookmarksEl.classList.add('job-list--visible');
+
+    // render bookmarks job list
+    renderJobList('bookmarks');
 };
 
 const mouseLeaveHandler = ()=>{
